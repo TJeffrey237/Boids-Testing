@@ -81,34 +81,49 @@ public class Boid : MonoBehaviour
 
         // OBSTACLE AVOIDANCE
         Vector3 velObstacle = Vector3.zero;
-        
+        RaycastHit hit;
+        Vector3 dir = rigid.velocity.normalized;
+        if(dir != Vector3.zero && Physics.SphereCast(pos, spn.obstacleSphereRadius, dir, out hit, spn.obstacleMask))
+        {
+            float t = 1f - (hit.distance / spn.obstacleDetectDist);
+            Vector3 avoidDir = (pos - hit.point).normalized;
+            velObstacle = (avoidDir + hit.normal * 0.5f).normalized * spn.velocity * Mathf.Clamp01(t);
+            Debug.DrawLine(pos, hit.point, Color.red);
+        }
+
 
         Vector3 delta = Attractor.POS - pos;
         bool attracted = delta.magnitude > spn.attractPushDist;
         Vector3 velAttract = delta.normalized * spn.velocity;
 
         float fdt = Time.fixedDeltaTime;
-        if(velAvoid != Vector3.zero)
+        if(velObstacle != Vector3.zero)
         {
-            vel = Vector3.Lerp(vel, velAvoid, spn.collAvoid * fdt);
+            vel = Vector3.Lerp(vel, velObstacle, spn.obstacleAvoid * fdt);
         } else
         {
-            if(velAlign != Vector3.zero)
+            if(velAvoid != Vector3.zero)
             {
-                vel = Vector3.Lerp(vel, velAlign, spn.velMatching * fdt);
-            }
-            if(velCenter != Vector3.zero)
+                vel = Vector3.Lerp(vel, velAvoid, spn.collAvoid * fdt);
+            } else
             {
-                vel = Vector3.Lerp(vel, velCenter, spn.flockCentering * fdt);
-            }
-            if(velAttract != Vector3.zero)
-            {
-                if(attracted)
+                if(velAlign != Vector3.zero)
                 {
-                    vel = Vector3.Lerp(vel, velAttract, spn.attractPull * fdt);
-                } else
+                    vel = Vector3.Lerp(vel, velAlign, spn.velMatching * fdt);
+                }
+                if(velCenter != Vector3.zero)
                 {
-                    vel = Vector3.Lerp(vel, -velAttract, spn.attractPush * fdt);
+                    vel = Vector3.Lerp(vel, velCenter, spn.flockCentering * fdt);
+                }
+                if(velAttract != Vector3.zero)
+                {
+                    if(attracted)
+                    {
+                        vel = Vector3.Lerp(vel, velAttract, spn.attractPull * fdt);
+                    } else
+                    {
+                        vel = Vector3.Lerp(vel, -velAttract, spn.attractPush * fdt);
+                    }
                 }
             }
         }
