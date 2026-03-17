@@ -15,7 +15,7 @@ This project requires no input from the user as it is a test. Simply press the p
 
 ## Just Want to Play?
 This game is being hosted on itch.io, link is here:
-[Boids Avoidance Testing](placeholder)
+[Boids Avoidance Testing](https://tjeffrey373.itch.io/boids-avoidance-testing)
 
 ## Credits
 Textures sourced from Google and the Unity Asset Store.
