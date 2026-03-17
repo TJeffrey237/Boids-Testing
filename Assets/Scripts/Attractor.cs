@@ -5,23 +5,40 @@ using UnityEngine;
 public class Attractor : MonoBehaviour
 {
     static public Vector3 POS = Vector3.zero;
-    [Header("Set in Inspector")]
-    public float radius = 10f;
-    public float xPhase = 0.5f;
-    public float yPhase = 0.4f;
-    public float zPhase = 0.1f;
+
+    [Header("Box Movement")]
+    public Vector3 boxSize = new Vector3(50f, 0f, 50f);
+    public float speed = 10f;
+    public float y = 0f;
 
     void FixedUpdate()
     {
-        /*
-        Vector3 tPos = Vector3.zero;
-        Vector3 scale = transform.localScale;
+        float perim = 2f * (boxSize.x + boxSize.z);
+        if (perim <= 0f) return;
 
-        tPos.x = Mathf.Sin(xPhase * Time.time) * radius * scale.x;
-        tPos.y = Mathf.Sin(yPhase * Time.time) * radius * scale.y;
-        tPos.z = Mathf.Sin(zPhase * Time.time) * radius * scale.z;
+        float d = Time.time * speed % perim;
+        float halfX = boxSize.x * 0.5f;
+        float halfZ = boxSize.z * 0.5f;
+        Vector3 tPos;
+
+        if (d < boxSize.x)
+        {
+            tPos = new Vector3(-halfX + d, y, -halfZ);
+        }
+        else if (d < boxSize.x + boxSize.z)
+        {
+            tPos = new Vector3(halfX, y, -halfZ + (d - boxSize.x));
+        }
+        else if (d < boxSize.x * 2f + boxSize.z)
+        {
+            tPos = new Vector3(halfX - (d - (boxSize.x + boxSize.z)), y, halfZ);
+        }
+        else
+        {
+            tPos = new Vector3(-halfX, y, halfZ - (d - (boxSize.x * 2f + boxSize.z)));
+        }
+
         transform.position = tPos;
         POS = tPos;
-        */
     }
 }
