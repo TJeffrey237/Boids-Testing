@@ -13,7 +13,7 @@ public class Spawner : MonoBehaviour
     public float spawnRadius = 100f;
     public float spawnDelay = 0.1f;
 
-    [Header("Set in Inspector: Boids")]
+    [Header("Set in Inspector: Boid Properties")]
     public float velocity = 30f;
     public float neighborDist = 30f;
     public float collDist = 4.0f;
@@ -23,6 +23,10 @@ public class Spawner : MonoBehaviour
     public float attractPull = 2f;
     public float attractPush = 2f;
     public float attractPushDist = 5f;
+    public LayerMask obstacleMask;
+    public float obstacleDetectDist = 20f;
+    public float obstacleSphereRadius = 5f;
+    public float obstacleAvoid = 10f;
 
 
     // Start is called before the first frame update
@@ -43,11 +47,5 @@ public class Spawner : MonoBehaviour
         {
             Invoke("InstantiateBoid", spawnDelay);
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

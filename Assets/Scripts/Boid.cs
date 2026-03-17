@@ -77,8 +77,11 @@ public class Boid : MonoBehaviour
             velCenter -= transform.position;
             velCenter.Normalize();
             velCenter *= spn.velocity;
-            //
         }
+
+        // OBSTACLE AVOIDANCE
+        Vector3 velObstacle = Vector3.zero;
+        
 
         Vector3 delta = Attractor.POS - pos;
         bool attracted = delta.magnitude > spn.attractPushDist;
