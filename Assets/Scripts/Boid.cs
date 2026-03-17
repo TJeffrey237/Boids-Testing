@@ -83,12 +83,17 @@ public class Boid : MonoBehaviour
         Vector3 velObstacle = Vector3.zero;
         RaycastHit hit;
         Vector3 dir = rigid.velocity.normalized;
-        if(dir != Vector3.zero && Physics.SphereCast(pos, spn.obstacleSphereRadius, dir, out hit, spn.obstacleMask))
+        if(dir == Vector3.zero) dir = transform.forward;
+        if(dir != Vector3.zero && Physics.SphereCast(pos, spn.obstacleSphereRadius, dir, out hit, spn.obstacleDetectDist, spn.obstacleMask.value))
         {
             float t = 1f - (hit.distance / spn.obstacleDetectDist);
             Vector3 avoidDir = (pos - hit.point).normalized;
             velObstacle = (avoidDir + hit.normal * 0.5f).normalized * spn.velocity * Mathf.Clamp01(t);
-            Debug.DrawLine(pos, hit.point, Color.red);
+            if(hit.distance <= spn.obstacleDetectDist)
+            {
+                Debug.DrawLine(pos, hit.point, Color.red);
+            }
+            Debug.DrawRay(pos, dir * spn.obstacleDetectDist, Color.yellow);
         }
 
 

@@ -13,6 +13,7 @@ public class Attractor : MonoBehaviour
 
     void FixedUpdate()
     {
+        /*
         Vector3 tPos = Vector3.zero;
         Vector3 scale = transform.localScale;
 
@@ -21,5 +22,6 @@ public class Attractor : MonoBehaviour
         tPos.z = Mathf.Sin(zPhase * Time.time) * radius * scale.z;
         transform.position = tPos;
         POS = tPos;
+        */
     }
 }
