@@ -9,7 +9,7 @@ public class Attractor : MonoBehaviour
     [Header("Box Movement")]
     public Vector3 boxSize = new Vector3(50f, 0f, 50f);
     public float speed = 10f;
-    public float y = 0f;
+    public float y = 40f;
 
     void FixedUpdate()
     {
